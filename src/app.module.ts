@@ -6,6 +6,8 @@ import { MaterialsModule } from './materials/materials.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { LoggerMiddleware } from './utils/logger.middleware';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,7 +16,9 @@ import { LoggerMiddleware } from './utils/logger.middleware';
     CacheModule.register({
       isGlobal: true,
       store: redisStore
-    })
+    }),
+    UsersModule,
+    AuthModule
     ],
   controllers: [AppController],
   providers: [AppService],
