@@ -1,5 +1,6 @@
 import { IsString, IsNotEmpty, IsEnum } from "class-validator";
 import { UserRole } from "../decorators/roles.enum";
+import { Exclude, Expose } from "class-transformer";
 
 
 export class CreateUserDto {
@@ -7,7 +8,7 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     username: string;
-    
+
     @IsString()
     @IsNotEmpty()
     firstName: string;
