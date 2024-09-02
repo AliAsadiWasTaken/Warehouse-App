@@ -1,12 +1,13 @@
 import { Controller, Get, Param, Delete, Patch, ValidationPipe, Body, Post, UseGuards, UseInterceptors, SerializeOptions, ClassSerializerInterceptor } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './users-dto/create-user.dto';
-import { UpdateUserDto } from './users-dto/update-user.dto';
-import { RolesGuard } from './guards/roles.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserRole } from './decorators/roles.enum';
-import { Roles } from './decorators/roles.decorator';
-import { UsersInterceptor } from './interceptors/users.interceptor';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { RolesGuard } from '../guards/roles.guard';
+import { UserRole } from '../decorators/roles.enum';
+import { Roles } from '../decorators/roles.decorator';
+import { UsersInterceptor } from '../interceptors/users.interceptor';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
+import { UpdateUserDto } from 'src/dtos/update-user.dto';
+import { DummyInterceptor } from 'src/interceptors/dummy-interceptor';
 
 
 
@@ -25,7 +26,7 @@ export class UsersController {
     }
 
     @Get(':username')
-    @UseInterceptors(UsersInterceptor)
+    @UseInterceptors(DummyInterceptor)
     findOne(@Param("username") username: string) {
         return this.usersService.findOne(username)
 

@@ -1,11 +1,11 @@
 import { Body, Controller, Get, HttpException, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
-import { AuthPayloadDto } from './dto/auth.dto';
+import { AuthPayloadDto } from '../dtos/auth.dto';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { LocalGuard } from './guards/local.guard';
-import { JwtAuthGuard } from './guards/jwt.guard';
+import { LocalGuard } from '../guards/local.guard';
+import { JwtAuthGuard } from '../guards/jwt.guard';
 import { Request } from 'express';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthInterceptor } from '../interceptors/auth.interceptor';
 
 @Controller('auth')
 export class AuthController {

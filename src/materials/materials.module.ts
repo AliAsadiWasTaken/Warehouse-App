@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { MaterialsController } from './materials.controller';
 import { MaterialsService } from './materials.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Material, MaterialSchema } from './entities/material.entity';
-import { JwtStrategy } from 'src/auth/guards/jwt.strategy';
-import { LocalStrategy } from 'src/auth/strategies/local.strategy';
+import { Material, MaterialSchema } from '../entities/material.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { JwtStrategy } from 'src/strategies/jwt.strategy';
+import { LocalStrategy } from 'src/strategies/local.strategy';
 
 @Module({
     imports: [

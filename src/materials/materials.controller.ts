@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { MaterialsService } from './materials.service';
-import { CreateMaterialDto } from './materials-dto/create-material.dto';
-import { UpdateMaterialDto } from './materials-dto/update-material.dto';
-import { RolesGuard } from 'src/users/guards/roles.guard';
-import { Roles } from 'src/users/decorators/roles.decorator';
-import { UserRole } from 'src/users/decorators/roles.enum';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { MaterialsInterceptor } from './interceptors/materials.interceptor';
+import { CreateMaterialDto } from '../dtos/create-material.dto';
+import { UserRole } from 'src/decorators/roles.enum';
+import { MaterialsInterceptor } from '../interceptors/materials.interceptor';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UpdateMaterialDto } from 'src/dtos/update-material.dto';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('materials')
 export class MaterialsController {

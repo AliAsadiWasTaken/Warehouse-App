@@ -1,11 +1,11 @@
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
-import { CreateMaterialDto } from './materials-dto/create-material.dto';
-import { UpdateMaterialDto } from './materials-dto/update-material.dto';
+import { CreateMaterialDto } from '../dtos/create-material.dto';
 import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose"
-import { Material } from './entities/material.entity';
+import { Material } from '../entities/material.entity';
 import { Cache } from 'cache-manager';
+import { UpdateMaterialDto } from "src/dtos/update-material.dto";
 
 
 @Injectable()
