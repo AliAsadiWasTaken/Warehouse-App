@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { AuthPayloadDto } from '../dtos/auth.dto';
+import { AuthRequestPayloadType } from '../requests-types/auth.request.type';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
@@ -15,8 +15,7 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-
-    async validateUser({ username, password }: AuthPayloadDto) {
+    async validateUser({ username, password }: AuthRequestPayloadType) {
         const findUser = await this.userModel.findOne( { username: username }).exec();
         if (!findUser) throw new HttpException('Invalid Username', 401);
         const isPasswordValid = await bcrypt.compare( password, findUser.password);

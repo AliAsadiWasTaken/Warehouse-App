@@ -1,11 +1,11 @@
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
-import { CreateMaterialDto } from '../dtos/create-material.dto';
+import { CreateMaterialRequestType } from '../requests-types/materials.create.request.type';
 import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose"
 import { Material } from '../entities/material.entity';
 import { Cache } from 'cache-manager';
-import { UpdateMaterialDto } from "src/dtos/update-material.dto";
+import { UpdateMaterialRequestType } from "src/requests-types/materials.update.request.type";
 
 
 @Injectable()
@@ -33,7 +33,7 @@ export class MaterialsService {
         return material
     }
 
-    async create(createMaterial: CreateMaterialDto) {
+    async create(createMaterial: CreateMaterialRequestType) {
         const material = await this.materialModel.findOne({ name: createMaterial.name}).exec();
         if (material) throw new ConflictException("Material Already Exists!")
         const newMaterial = new this.materialModel(createMaterial);
@@ -41,8 +41,8 @@ export class MaterialsService {
     }
     
 
-    async update(name: string, updatedMaterialDto: UpdateMaterialDto) {
-        const existingMaterial = await this.materialModel.findOneAndUpdate({name: name}, {$set: updatedMaterialDto}, { new: true }).exec();
+    async update(name: string, updatedMaterialType: UpdateMaterialRequestType) {
+        const existingMaterial = await this.materialModel.findOneAndUpdate({name: name}, {$set: updatedMaterialType}, { new: true }).exec();
         if (!existingMaterial) {
             throw new NotFoundException("Material Not Found!")
         } 

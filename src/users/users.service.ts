@@ -1,14 +1,14 @@
-import { ConflictException, Inject, Injectable, Res } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { model, Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Cache } from 'cache-manager';
 import { NotFoundError } from 'rxjs';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserRequestType } from '../requests-types/users.create.request.type';
 import { encodePassword } from 'src/utils/bcrypt';
 import { User } from 'src/entities/users.entity';
-import { UpdateUserDto } from 'src/dtos/update-user.dto';
 import { plainToInstance } from 'class-transformer';
-import { UserModel } from 'src/entities/users.model';
+import { UpdateUserRequestType } from 'src/requests-types/users.update.request.type';
+import { UserResponseType } from 'src/response-types/users.response.type';
 
 @Injectable()
 export class UsersService {
@@ -30,33 +30,23 @@ export class UsersService {
             return cachedData;
         }
         const user = await this.userModel.findOne({username: username}).exec();
-        const userObject = user.toObject();
-        console.log(user)
-        console.log(user.constructor.name)
-        console.log(userObject)
-        console.log(userObject.constructor.name)
-        // const augmentedUser = plainToInstance(UserModel, user)
-        // console.log(augmentedUser.constructor.name)
-        // const userInstance = plainToInstance(UserModel, user)
+        // const userInstance = plainToInstance(UserResponseType, user)
         if (!user) throw new NotFoundError('User Not Found!');
         await this.cacheManager.set('User', user);
         return user;
     }
 
-
-  
-
-
-    async create(createUser: CreateUserDto) {
+    async create(createUser: CreateUserRequestType) {
         const user = await this.userModel.findOne({ username: createUser.username}).exec();
-        if (user) throw new ConflictException('Username Already Used/User Already Exists!');
+        if (user) throw new ConflictException('Username Is Already Used/User Already Exists!');
         const password = await encodePassword(createUser.password);
         const newUser = await this.userModel.create({...createUser, password})
+        // return plainToInstance(UserResponseType, newUser.save());
         return newUser.save();
     }
 
-    async update(username: string, updateUserDto: UpdateUserDto) {
-        const existingUser  = await this.userModel.findOneAndUpdate({username: username}, {$set: updateUserDto}, {new:true}).exec();
+    async update(username: string, updateUserType: UpdateUserRequestType) {
+        const existingUser  = await this.userModel.findOneAndUpdate({username: username}, {$set: updateUserType}, {new:true}).exec();
         if (!existingUser) throw new NotFoundError('User Not Found!');
         return existingUser
     }
